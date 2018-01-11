@@ -1,0 +1,3 @@
+function ssh_host_line_remove() {
+  sed -i -e "$1d" ~/.ssh/known_hosts
+}
