@@ -1,0 +1,6 @@
+function assh() {
+  E=$1
+  shift
+  A=$@
+  zsh -c ". ~/.virtualenvs/awsutils/bin/activate && AWS_PROFILE=$E aws-profile connect_to_host $A"
+}
