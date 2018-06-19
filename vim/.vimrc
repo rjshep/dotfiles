@@ -1,13 +1,13 @@
 set laststatus=2
-if filereadable($HOME . "/.local/lib/python2.7/site-packages/powerline_status-2.6.dist-info/metadata.json") || filereadable("/usr/local/lib/python2.7/site-packages/powerline_status-2.6.dist-info/metadata.json")
-  python from powerline.vim import setup as powerline_setup
-  python powerline_setup()
-  python del powerline_setup
-else
-  python3 from powerline.vim import setup as powerline_setup
-  python3 powerline_setup()
-  python3 del powerline_setup
-endif
+"if filereadable($HOME . "/.local/lib/python2.7/site-packages/powerline_status-2.6.dist-info/metadata.json") || filereadable("/usr/local/lib/python2.7/site-packages/powerline_status-2.6.dist-info/metadata.json")
+"  python from powerline.vim import setup as powerline_setup
+"  python powerline_setup()
+"  python del powerline_setup
+"else
+"  python3 from powerline.vim import setup as powerline_setup
+"  python3 powerline_setup()
+"  python3 del powerline_setup
+"endif
 set timeoutlen=1000 ttimeoutlen=0
 
 let g:netrw_banner = 0

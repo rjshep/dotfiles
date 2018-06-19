@@ -86,6 +86,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias vi='vim'
+alias k='kubectl'
+alias mk='minikube'
 
 function setjdk() {
   if [ $# -ne 0 ]; then
