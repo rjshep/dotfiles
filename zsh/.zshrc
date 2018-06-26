@@ -119,6 +119,8 @@ fpath=(~/dotfiles/zsh/zsh_functions $fpath)
 autoload -Uz ssh_host_line_remove
 autoload -Uz assh
 
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
 if [ -f "${HOME}/.zshrc.local" ]; then
   . "${HOME}/.zshrc.local"
 fi
