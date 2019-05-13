@@ -74,3 +74,6 @@ endf
 
 noremap <Tab> :call VexToggle(getcwd())<CR>
 noremap ` :call VexToggle("")<CR>
+
+set tabstop=2
+set expandtab
