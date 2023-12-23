@@ -1,0 +1,126 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+palette = "dark"
+
+
+format = """\
+[█](fg:os_host_bg)\
+$os\
+$username$hostname\
+[](fg:os_host_bg bg:directory_host_bg)\
+$directory\
+[](fg:directory_host_bg)\
+[$git_branch$git_status$git_state$git_metrics](bg:tool_bg)\
+$aws\
+$golang\
+$python\
+$rust\
+$terraform\
+$character\
+"""
+right_format = """\
+$status\
+$cmd_duration\
+$time\
+"""
+
+[palettes.dark]
+os_host_fg = "#090C0C"
+os_host_fg_root = "#ff0000"
+os_host_bg = "#7DF9AA"
+directory_host_fg = "#E4E4E4"
+directory_host_bg = "#3B76F0"
+tool_fg = "#3EC669"
+tool_bg = "#29315A"
+error_color = "#E84D44"
+time_fg = "#8DFBD2"
+time_bg = "#1C3A5E"
+
+[aws]
+format = '[](fg:tool_bg)[$symbol($profile )(\($region\) )(\[$duration\] )]($style)[](fg:tool_bg)'
+style = "bg:tool_bg fg:tool_fg"
+
+[aws.region_aliases]
+eu-west-1 = "irl"
+eu-west-2 = "uk"
+
+[directory]
+format = "[ ﱮ $path ]($style)"
+style = "fg:directory_host_fg bg:directory_host_bg"
+read_only = " 󰌾"
+
+
+[git_branch]
+format = '[](fg:tool_bg)[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "bg:tool_bg"
+
+[git_status]
+style = "bg:tool_bg"
+ahead = '⇡${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
+
+[git_metrics]
+format = '([+$added]($added_style))([-$deleted]($deleted_style))[](fg:tool_bg)'
+added_style = "fg:bright-green bg:tool_bg"
+deleted_style = "fg:bright-red bg:tool_bg"
+disabled = false
+
+[golang]
+symbol = " "
+style = "bg:tool_bg fg:tool_fg"
+format = "[](fg:tool_bg)[$symbol($version )]($style)[](fg:tool_bg)"
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white bg:18"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](error_color) '
+
+[os]
+disabled = false
+style = "bg:os_host_bg fg:os_host_fg"
+
+[rust]
+format = "[](fg:tool_bg)[$symbol($version )]($style)[](fg:tool_bg)"
+symbol = " "
+style = "bg:tool_bg fg:tool_fg"
+
+[hostname]
+disabled = false
+ssh_only = true
+ssh_symbol = '🌐'
+style = "bg:os_host_bg fg:os_host_fg"
+format = '[$hostname$ssh_symbol]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+format = '[[ 󱑍 $time ](bg:time_bg fg:time_fg)]($style)'
+
+[python]
+disabled = false
+pyenv_version_name = true
+style = "bg:tool_bg fg:tool_fg"
+format = '[[](fg:tool_bg)${symbol}${pyenv_prefix}(${version} )(\($virtualenv\))[](fg:tool_bg)]($style)'
+
+[status]
+disabled=false
+
+[terraform]
+disabled = false
+style = "bg:tool_bg fg:tool_fg"
+symbol = "🛠️ "
+format = '[[](fg:tool_bg)${symbol}${version}[](fg:tool_bg)]($style)'
+
+[username]
+style_user = "bg:os_host_bg fg:os_host_fg"
+style_root = "bg:os_host_bg fg:os_host_fg_root"
+format="[$user@]($style)"
