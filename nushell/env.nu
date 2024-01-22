@@ -111,6 +111,6 @@ starship init nu | save -f ~/.cache/starship/init.nu
 
 if ($"($nu.default-config-dir)/scripts/local/keybindings.nu" | path exists) {
 } else {
-  "" | save $"($nu.default-config-dir)/local/keybindings.nu"
+  "" | save $"($nu.default-config-dir)/scripts/local/keybindings.nu"
 }
 
