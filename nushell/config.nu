@@ -340,7 +340,7 @@ $env.config = {
           event: [
             {
               send: ExecuteHostCommand
-              cmd: "commandline (
+              cmd: "commandline edit (
                 history
                   | each { |it| $\"($it.index) ($it.command)\" }
                   | reverse
