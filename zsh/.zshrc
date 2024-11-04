@@ -1,126 +1,59 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Set up the path
+export PATH=/opt/homebrew/bin/:/Users/rshe/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
 
-# Path to your oh-my-zsh installation.
-export ZSH=${HOME}/.oh-my-zsh
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="agnoster"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git history-substring-search vi-mode)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias vi='vim'
-alias k='kubectl'
-alias mk='minikube'
-
-function setjdk() {
-  if [ $# -ne 0 ]; then
-   removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
-   if [ -n "${JAVA_HOME+x}" ]; then
-    removeFromPath $JAVA_HOME
-   fi
-   export JAVA_HOME=`/usr/libexec/java_home -v $@`
-   export PATH=$JAVA_HOME/bin:$PATH
+# Determine if we're in dark mode
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  if [[ $(defaults read -g AppleInterfaceStyle 2>/dev/null) == "Dark" ]]; then
+    DARK_MODE=true
+  else
+    DARK_MODE=false
   fi
- }
- function removeFromPath() {
-  export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
- }
-
-if [ -f "${HOME}/.gpg-agent-info" ]; then
-  . "${HOME}/.gpg-agent-info"
-  export GPG_AGENT_INFO
-  export SSH_AUTH_SOCK
+else
+  # TODO: Handle linux
 fi
-export GPG_TTY=$(tty)
 
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-
-# zsh-bd
-. $HOME/.zsh/plugins/bd/bd.zsh
-
-fpath=(~/dotfiles/zsh/zsh_functions $fpath)
-autoload -Uz ssh_host_line_remove
-autoload -Uz assh
-
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
-if [ -f "${HOME}/.zshrc.local" ]; then
-  . "${HOME}/.zshrc.local"
+if [[ ${DARK_MODE} == "true" ]]; then
+  ZSH_SYNTAX_SCRIPT=~/.zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+  export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+else
+  ZSH_SYNTAX_SCRIPT=~/.zsh/catppuccin_latte-zsh-syntax-highlighting.zsh
+  export LS_COLORS="$(vivid generate catppuccin-latte)"
 fi
+
+# Set brew variables appropriately
+eval "$(brew shellenv)"
+
+# Enable autocomplete
+autoload -Uz compinit
+compinit
+
+# Initialise Starship Prompt
+eval "$(starship init zsh)"
+
+# Configure atuin to initialise after zsh is running
+zvm_after_init_commands+=(eval "$(atuin init zsh --disable-up-arrow)")
+
+# Configure zsh plugins
+source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source ${ZSH_SYNTAX_SCRIPT}
+source ~/.zsh/git.plugin.zsh
+source ~/.zsh/kubectl.plugin.zsh
+source <(kubectl completion zsh)
+#source <(fzf --zsh)
+source ~/.zsh/fuzzy-find.zsh
+
+# Enable  menus in autocomplete
+zstyle ':completion:*' menu select
+
+# This must be the last entry
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+alias ll='lsd -l'
+alias ls=lsd
+alias vi=nvim
+
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi
+
+export EDITOR=nvim
