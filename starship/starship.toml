@@ -147,6 +147,10 @@ style = "fg:bright-white bg:18"
 format = '$symbol'
 success_symbol = '[ ➜](fg:green) '
 error_symbol = '[ ✗](fg:red) '
+vimcmd_symbol = '[ ❮ ](bold green)'
+vimcmd_replace_one_symbol = '[ ❮ ](bold purple)'
+vimcmd_replace_symbol = '[ ❮ ](bold purple)'
+vimcmd_visual_symbol = '[ ❮ ](bold yellow)'
 
 [os]
 disabled = false
