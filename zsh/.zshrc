@@ -1,15 +1,18 @@
 # Set up the path
-export PATH=/opt/homebrew/bin/:/Users/rshe/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
 
-# Determine if we're in dark mode
+# Set up OS specific things
 if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PATH=/opt/homebrew/bin/:/Users/rshe/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
   if [[ $(defaults read -g AppleInterfaceStyle 2>/dev/null) == "Dark" ]]; then
     DARK_MODE=true
+    HAS_BREW=true
   else
     DARK_MODE=false
+    HAS_BREW=false
   fi
 else
   # TODO: Handle linux
+  export PATH=~/.nix-profile/bin:~/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
 fi
 
 if [[ ${DARK_MODE} == "true" ]]; then
@@ -34,7 +37,11 @@ eval "$(starship init zsh)"
 zvm_after_init_commands+=(eval "$(atuin init zsh --disable-up-arrow)")
 
 # Configure zsh plugins
-source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+if [[ ${HAS_BREW} ]]; then
+  source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+else
+  source ~/.local/share/zsh/plugins/zsh-vi-mode.plugin.zsh  
+fi
 source ${ZSH_SYNTAX_SCRIPT}
 source ~/.zsh/git.plugin.zsh
 source ~/.zsh/kubectl.plugin.zsh
@@ -46,7 +53,11 @@ source ~/.zsh/fuzzy-find.zsh
 zstyle ':completion:*' menu select
 
 # This must be the last entry
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ ${HAS_BREW} ]]; then
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  source ~/.local/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 alias ll='lsd -l'
 alias ls=lsd
