@@ -12,7 +12,7 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   fi
 else
   # TODO: Handle linux
-  export PATH=~/.nix-profile/bin:~/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
+  export PATH=~/.nix-profile/bin:~/.pyenv/shims/:/usr/local/bin/tsh:/usr/bin:/bin:/usr/sbin:/sbin:
 fi
 
 if [[ ${DARK_MODE} == "true" ]]; then
