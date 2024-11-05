@@ -23,8 +23,10 @@ else
   export LS_COLORS="$(vivid generate catppuccin-latte)"
 fi
 
-# Set brew variables appropriately
-eval "$(brew shellenv)"
+if [[ ${HAS_BREW} ]]; then
+  # Set brew variables appropriately
+  eval "$(brew shellenv)"
+fi
 
 # Enable autocomplete
 autoload -Uz compinit
