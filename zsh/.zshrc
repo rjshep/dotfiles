@@ -27,7 +27,7 @@ else
   export LS_COLORS="$(vivid generate catppuccin-latte)"
 fi
 
-if [[ ${HAS_BREW} ]]; then
+if [[ "${HAS_BREW}" == "true" ]]; then
   # Set brew variables appropriately
   eval "$(brew shellenv)"
 fi
