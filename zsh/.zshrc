@@ -2,17 +2,21 @@
 
 # Set up OS specific things
 if [[ "$(uname -s)" == "Darwin" ]]; then
+  export HAS_BREW=false
   export PATH=/opt/homebrew/bin/:/Users/rshe/.pyenv/shims/:/usr/bin:/bin:/usr/sbin:/sbin:
   if [[ $(defaults read -g AppleInterfaceStyle 2>/dev/null) == "Dark" ]]; then
     DARK_MODE=true
-    HAS_BREW=true
   else
     DARK_MODE=false
-    HAS_BREW=false
   fi
 else
-  # TODO: Handle linux
+  export HAS_BREW=true
   export PATH=~/.nix-profile/bin:~/.pyenv/shims/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:
+  if [[ "$(gsettings get org.mate.interface gtk-theme)" == 'Arc-Dark' ]]; then
+    DARK_MODE=true
+  else
+    DARK_MODE=false
+  fi
 fi
 
 if [[ ${DARK_MODE} == "true" ]]; then
