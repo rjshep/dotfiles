@@ -27,6 +27,8 @@ $cmd_duration\
 $time\
 """
 
+command_timeout = 1000
+
 [palettes.dark]
 os_host_fg = "#090C0C"
 os_host_fg_root = "#ff0000"
