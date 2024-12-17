@@ -44,7 +44,7 @@ zvm_after_init_commands+=(eval "$(atuin init zsh --disable-up-arrow)")
 
 # Configure zsh plugins
 if [[ "${HAS_BREW}" == "true" ]]; then
-  source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+  source $(brew --prefix)/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 else
   source ~/.local/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh  
 fi
@@ -60,7 +60,7 @@ zstyle ':completion:*' menu select
 
 # This must be the last entry
 if [[ "${HAS_BREW}" == "true" ]]; then
-  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
   source ~/.local/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
