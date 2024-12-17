@@ -49,6 +49,9 @@ wk.add({
   { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
 })
 
+-- Fix default keymaps to what is usual
+vim.keymap.set('n', 'Y', 'yy')
+
 -- Tab stops
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2

@@ -10,9 +10,9 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     DARK_MODE=false
   fi
 else
-  export HAS_BREW=false
-  export PATH=~/.nix-profile/bin:~/.pyenv/shims/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:
-  if [[ "$(~/bin/gsettings get org.mate.interface gtk-theme)" == "'Arc-Dark'" ]]; then
+  export HAS_BREW=true
+  export PATH=/home/linuxbrew/.linuxbrew/bin:~/.pyenv/shims/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:
+  if [[ "$(dconf read /org/gnome/desktop/interface/gtk-theme)" == "'Adwaita-dark'" ]]; then
     DARK_MODE=true
   else
     DARK_MODE=false
